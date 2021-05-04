@@ -1,42 +1,30 @@
-import java.util.ArrayList;
-import java.util.Comparator;
-
 public class problem0003{
 	public static void main(String[] args){
-		long n = 600851475143L;
-		ArrayList<Long> factors = factor(n);
-		System.out.println(factors);
+		long init = 600851475143L;
+		long n = init;
+		long primeFactor = 3;
+		while(n != primeFactor){
+			if(isPrime(primeFactor) && n%primeFactor == 0){
+				n/=primeFactor;
+				primeFactor = 1;
+			}
+			primeFactor+=2;
+		}
+		System.out.printf("The largest prime factor of %d is %d\n", init, n);
 	} //end main
 
-	public static ArrayList<Long> factor(long n){
-		ArrayList<Long> factors = new ArrayList<Long>(0);
-		long sqrt = Double.valueOf(Math.sqrt(n)).longValue();
-		for(long i = 1; i <= sqrt; i++){
-			if(n%i == 0){
-				factors.add(i);
-				factors.add(n/i);
-			}//end if
-		}//end for
-		factors.sort(new NumberSort());
-		return factors;
-	}//end factor
-
-	public static boolean isPrime(int n){
+	public static boolean isPrime(long n){
 		if(n%2 == 0){
 			return false;
 		}
+		long div = 3L;
+		long sqrt = 1+Double.valueOf(Math.sqrt(n)).longValue();
+		while(n%div != 0 && div < sqrt){
+			div+=2;
+		}
+		if(div < sqrt){
+			return false;
+		}
+		return true;
 	}
 }//end problem0003
-
-//sorts in reverse order
-class NumberSort implements Comparator<Long>{
-	public int compare(Long l1, Long l2){
-		if(l1 < l2){
-			return 1;
-		} else if(l1 > l2){
-			return -1;
-		} else {
-			return 0;
-		}
-	}//end compare
-}//end comparator
